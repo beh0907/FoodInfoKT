@@ -1,6 +1,6 @@
 package com.skymilk.foodinfokt.models
 
-data class MealByCategory(
+data class MealsByCategory(
     val idMeal: String,
     val strMeal: String,
     val strMealThumb: String

@@ -4,17 +4,26 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.skymilk.foodinfokt.databinding.ActivityMealBinding
+import com.skymilk.foodinfokt.db.MealDatabase
 import com.skymilk.foodinfokt.fragments.HomeFragment
+import com.skymilk.foodinfokt.models.Meal
 import com.skymilk.foodinfokt.viewModels.MealViewModel
+import com.skymilk.foodinfokt.viewModels.MealViewModelFactory
 
 class MealActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMealBinding
-    private val viewModel: MealViewModel by viewModels()
+    private val viewModel: MealViewModel by viewModels { // 팩토리 커스텀을 했을 경우 처리
+        val mealDatabase = MealDatabase.getInstance(this)
+        MealViewModelFactory(mealDatabase)
+    }
+
+    private lateinit var meal: Meal // 현재 조회중인 음식 정보
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,12 +57,23 @@ class MealActivity : AppCompatActivity() {
 
     //클릭 이벤트 설정 모음
     private fun setClick() {
+        //유튜브 버튼 클릭
         binding.imgYoutube.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(viewModel.mealDetailLiveData.value!!.strYoutube)
             )
             startActivity(intent)
+        }
+
+        //즐겨찾기 버튼 클릭
+        binding.btnFavorite.setOnClickListener {
+            //mealDetailLiveData null 체크를 위해 let
+            viewModel.mealDetailLiveData.value?.let { meal ->
+                viewModel.upsertMeal(meal)
+                Toast.makeText(this, "음식 정보를 저장하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 

@@ -6,22 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.skymilk.foodinfokt.activities.CategoryMealsActivity
+import com.skymilk.foodinfokt.activities.MainActivity
 import com.skymilk.foodinfokt.activities.MealActivity
 import com.skymilk.foodinfokt.adapters.CategoryAdapter
 import com.skymilk.foodinfokt.adapters.PopularAdapter
 import com.skymilk.foodinfokt.databinding.FragmentHomeBinding
 import com.skymilk.foodinfokt.models.Category
-import com.skymilk.foodinfokt.models.MealByCategory
+import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var viewModel: HomeViewModel
 
+    //리스트 어댑터
     private lateinit var popularAdapter: PopularAdapter
     private lateinit var categoryAdapter: CategoryAdapter
 
@@ -29,10 +31,14 @@ class HomeFragment : Fragment() {
         const val MEAL_ID = "com.skymilk.foodinfokt.fragments.idMeal"
         const val MEAL_NAME = "com.skymilk.foodinfokt.fragments.nameMeal"
         const val MEAL_THUMB = "com.skymilk.foodinfokt.fragments.thumbMeal"
+        const val CATEGORY_NAME = "com.skymilk.foodinfokt.fragments.categoryName"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //프래그먼트 생성 시 뷰 모델 초기화
+        viewModel = (activity as MainActivity).homeViewModel
     }
 
     override fun onCreateView(
@@ -90,11 +96,9 @@ class HomeFragment : Fragment() {
 
         //아이템 터치 이벤트 발생 시 동작
         categoryAdapter.onItemClick = {
-//            val intent = Intent(activity, MealActivity::class.java)
-//            intent.putExtra(MEAL_ID, it.idMeal)
-//            intent.putExtra(MEAL_NAME, it.strMeal)
-//            intent.putExtra(MEAL_THUMB, it.strMealThumb)
-//            startActivity(intent)
+            val intent = Intent(activity, CategoryMealsActivity::class.java)
+            intent.putExtra(CATEGORY_NAME, it.strCategory)
+            startActivity(intent)
         }
 
         //리사이클러뷰 설정
@@ -124,7 +128,7 @@ class HomeFragment : Fragment() {
 
         //인기있는 음식들을 가져왔을 때
         viewModel.popularItemsLiveData.observe(viewLifecycleOwner) {
-            popularAdapter.setMealList(it as ArrayList<MealByCategory>)
+            popularAdapter.setMealList(it as ArrayList<MealsByCategory>)
         }
 
         //카테고리 목록을 가져왔을 때

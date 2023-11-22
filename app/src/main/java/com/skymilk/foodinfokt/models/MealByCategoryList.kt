@@ -2,5 +2,5 @@ package com.skymilk.foodinfokt.models
 
 
 data class MealByCategoryList(
-    val meals: List<MealByCategory>
+    val meals: List<MealsByCategory>
 )
