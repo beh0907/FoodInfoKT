@@ -33,7 +33,7 @@ class MealViewModel(private val mealDatabase: MealDatabase) : ViewModel() {
         })
     }
 
-    fun upsertMeal(meal: Meal) {
+    fun insertMeal(meal: Meal) {
         viewModelScope.launch { //코루틴 생성
             mealDatabase.mealDao().upsert(meal)
         }

@@ -28,6 +28,7 @@ class CategoryMealsActivity : AppCompatActivity() {
         initPopularRecyclerView()
 
         setObserve()
+
     }
 
     private fun getCategoryInfoWithIntent() {

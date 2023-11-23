@@ -3,14 +3,16 @@ package com.skymilk.foodinfokt.viewModels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.skymilk.foodinfokt.db.MealDatabase
 import com.skymilk.foodinfokt.models.Category
 import com.skymilk.foodinfokt.models.CategoryList
 import com.skymilk.foodinfokt.models.Meal
-import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.models.MealByCategoryList
 import com.skymilk.foodinfokt.models.MealList
+import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.retrofit.RetrofitInstance
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +25,7 @@ class HomeViewModel(
     var randomMealLiveData = MutableLiveData<Meal>()
     var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()
     var categoriesLiveData = MutableLiveData<List<Category>>()
+    var bottomSheetMealLiveData = MutableLiveData<Meal>()
 
     var favoriteMealsLiveDatabase = mealDatabase.mealDao().getAllMeals()
 
@@ -32,7 +35,7 @@ class HomeViewModel(
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 if (response.body() != null) {
-                    val meal: Meal = response.body()!!.meals[0]
+                    val meal: Meal = response.body()!!.meals.first()
                     randomMealLiveData.value = meal
                     Log.d(TAG, meal.toString())
                 }
@@ -45,6 +48,8 @@ class HomeViewModel(
         })
     }
 
+
+    //음식 조건 검색
     fun getFilterMeal(category: String) {
         RetrofitInstance.api.getPopularItems(category)
             .enqueue(object : Callback<MealByCategoryList> {
@@ -64,6 +69,7 @@ class HomeViewModel(
             })
     }
 
+    //카테고리 목록 가져오기
     fun getCategories() {
         RetrofitInstance.api.getCategories().enqueue(object : Callback<CategoryList> {
             override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
@@ -77,5 +83,37 @@ class HomeViewModel(
             }
 
         })
+    }
+
+    fun getMealById(id: String) {
+        RetrofitInstance.api.getDetailMeal(id).enqueue(object : Callback<MealList> {
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                val meal: Meal = response.body()!!.meals.first()
+
+                meal.let {
+                    bottomSheetMealLiveData.postValue(it)
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                Log.d(TAG, t.message.toString())
+            }
+
+        })
+    }
+
+    //즐겨찾기 추가
+    fun insertFavoriteMeal(meal: Meal) {
+        viewModelScope.launch { //코루틴 생성
+            mealDatabase.mealDao().upsert(meal)
+        }
+    }
+
+
+    //즐겨찾기 삭제
+    fun deleteFavoriteMeal(meal: Meal) {
+        viewModelScope.launch { //코루틴 생성
+            mealDatabase.mealDao().delete(meal)
+        }
     }
 }

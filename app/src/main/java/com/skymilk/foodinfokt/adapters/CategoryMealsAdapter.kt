@@ -40,14 +40,16 @@ class CategoryMealsAdapter() :
             .into(holder.binding.imgMeal)
 
         holder.binding.txtMealName.text = mealsByCategory.strMeal
-
-        //아이템 터치 리스터
-        holder.itemView.setOnClickListener {
-            onItemClick.invoke(mealsByCategory)
-        }
     }
 
     inner class CategoryMealsViewHolder(var binding: MealItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            //아이템 터치 리스너
+            itemView.setOnClickListener {
+                onItemClick.invoke(mealsByCategoryList[adapterPosition])
+            }
+        }
     }
 }

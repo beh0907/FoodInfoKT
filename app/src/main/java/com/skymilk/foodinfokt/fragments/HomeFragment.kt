@@ -12,9 +12,10 @@ import com.bumptech.glide.Glide
 import com.skymilk.foodinfokt.activities.CategoryMealsActivity
 import com.skymilk.foodinfokt.activities.MainActivity
 import com.skymilk.foodinfokt.activities.MealActivity
-import com.skymilk.foodinfokt.adapters.CategoryAdapter
+import com.skymilk.foodinfokt.adapters.CategoriesAdapter
 import com.skymilk.foodinfokt.adapters.PopularAdapter
 import com.skymilk.foodinfokt.databinding.FragmentHomeBinding
+import com.skymilk.foodinfokt.fragments.bottomSheet.MealBottomSheetFragment
 import com.skymilk.foodinfokt.models.Category
 import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
@@ -25,7 +26,7 @@ class HomeFragment : Fragment() {
 
     //리스트 어댑터
     private lateinit var popularAdapter: PopularAdapter
-    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     companion object {
         const val MEAL_ID = "com.skymilk.foodinfokt.fragments.idMeal"
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
         setObserve()
         setClick()
 
+
         //랜덤 음식 가져오기
         viewModel.getRandomMeal()
 
@@ -82,6 +84,13 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
+        //아이템 롱 터치 이벤트 발생 시 동작
+        popularAdapter.onItemLongClick = {
+            //바텀 시트 정보 표시
+            val bottomSheetFragment = MealBottomSheetFragment.newInstance(it.idMeal)
+            bottomSheetFragment.show(childFragmentManager, "Meal Info")
+        }
+
 
         //리사이클러뷰 설정
         binding.recyclerPopularFood.apply {
@@ -92,10 +101,10 @@ class HomeFragment : Fragment() {
 
     private fun initCategoryRecyclerView() {
         //어댑터 초기화
-        categoryAdapter = CategoryAdapter()
+        categoriesAdapter = CategoriesAdapter()
 
         //아이템 터치 이벤트 발생 시 동작
-        categoryAdapter.onItemClick = {
+        categoriesAdapter.onItemClick = {
             val intent = Intent(activity, CategoryMealsActivity::class.java)
             intent.putExtra(CATEGORY_NAME, it.strCategory)
             startActivity(intent)
@@ -104,7 +113,7 @@ class HomeFragment : Fragment() {
         //리사이클러뷰 설정
         binding.recyclerCategories.apply {
             layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-            adapter = categoryAdapter
+            adapter = categoriesAdapter
         }
     }
 
@@ -133,7 +142,7 @@ class HomeFragment : Fragment() {
 
         //카테고리 목록을 가져왔을 때
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) {
-            categoryAdapter.setMealList(it as ArrayList<Category>)
+            categoriesAdapter.setCategoryList(it as ArrayList<Category>)
         }
     }
 }

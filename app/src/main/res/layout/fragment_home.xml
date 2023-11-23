@@ -94,7 +94,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerPopularFood"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_120sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"

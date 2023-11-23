@@ -70,7 +70,7 @@ class MealActivity : AppCompatActivity() {
         binding.btnFavorite.setOnClickListener {
             //mealDetailLiveData null 체크를 위해 let
             viewModel.mealDetailLiveData.value?.let { meal ->
-                viewModel.upsertMeal(meal)
+                viewModel.insertMeal(meal)
                 Toast.makeText(this, "음식 정보를 저장하였습니다.", Toast.LENGTH_SHORT).show()
             }
 

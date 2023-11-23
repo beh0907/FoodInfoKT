@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutBottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.bottomSheet.MealBottomSheetFragment">
+
+    <ImageView
+        android:id="@+id/imgMeal"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:scaleType="centerCrop"
+        android:src="@color/accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgMeal"
+        app:layout_constraintTop_toTopOf="@+id/imgMeal">
+
+
+        <TextView
+            android:id="@+id/txtArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_area"
+            android:drawableTint="@color/gray_black"
+            android:fontFamily="@font/myfont"
+            android:text="Korea"
+            android:textColor="@color/gray_black" />
+
+
+        <TextView
+            android:id="@+id/txtCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_categories"
+            android:drawableTint="@color/gray_black"
+            android:fontFamily="@font/myfont"
+            android:text="SeaFood"
+            android:textColor="@color/gray_black" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtMealName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/myfont"
+        android:maxLines="1"
+        android:text="Meal Name"
+        android:textColor="@color/gray_black"
+        app:layout_constraintStart_toStartOf="@+id/layoutInfo"
+        app:layout_constraintEnd_toEndOf="@+id/layoutInfo"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toBottomOf="@+id/layoutInfo" />
+
+    <TextView
+        android:id="@+id/txtReadMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/myfont"
+        android:text="Read More...."
+        android:textColor="@color/gray_black"
+        app:layout_constraintStart_toStartOf="@+id/layoutInfo"
+        app:layout_constraintTop_toBottomOf="@+id/txtMealName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

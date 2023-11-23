@@ -5,13 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.skymilk.foodinfokt.R
+import androidx.recyclerview.widget.GridLayoutManager
 import com.skymilk.foodinfokt.activities.MainActivity
+import com.skymilk.foodinfokt.adapters.CategoriesAdapter
+import com.skymilk.foodinfokt.databinding.FragmentCategoriesBinding
+import com.skymilk.foodinfokt.models.Category
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
 
 class CategoriesFragment : Fragment() {
 
+    private lateinit var binding: FragmentCategoriesBinding
     private lateinit var viewModel: HomeViewModel
+
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +30,34 @@ class CategoriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories, container, false)
+        binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initCategoriesRecyclerView()
+
+        setObserve()
+    }
+
+    private fun initCategoriesRecyclerView() {
+        categoriesAdapter = CategoriesAdapter()
+
+        categoriesAdapter.onItemClick = {
+
+        }
+
+        binding.recyclerCategories.apply {
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+            adapter = categoriesAdapter
+        }
+    }
+
+    private fun setObserve() {
+        viewModel.categoriesLiveData.observe(requireActivity()) {
+            categoriesAdapter.setCategoryList(it as ArrayList<Category>)
+        }
     }
 }

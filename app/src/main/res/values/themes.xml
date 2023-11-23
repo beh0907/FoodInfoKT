@@ -13,6 +13,8 @@
 
         <!--        상단바 색상-->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="Theme.FoodInfoKT" parent="Base.Theme.FoodInfoKT" />

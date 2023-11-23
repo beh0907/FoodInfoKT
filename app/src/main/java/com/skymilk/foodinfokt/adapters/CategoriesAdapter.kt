@@ -7,17 +7,17 @@ import com.bumptech.glide.Glide
 import com.skymilk.foodinfokt.databinding.CategoryItemBinding
 import com.skymilk.foodinfokt.models.Category
 
-class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
     lateinit var onItemClick: ((Category) -> Unit)
     private var categoryList = ArrayList<Category>()
 
-    fun setMealList(categoryList: ArrayList<Category>) {
+    fun setCategoryList(categoryList: ArrayList<Category>) {
         this.categoryList = categoryList
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        return CategoryViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
+        return CategoriesViewHolder(
             CategoryItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -30,7 +30,7 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
         return categoryList.size
     }
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         val category = categoryList[position]
 
         //이미지 적용
@@ -38,14 +38,16 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
             .into(holder.binding.imgCategory)
 
         holder.binding.txtCategory.text = category.strCategory
-
-        //아이템 터치 리스터
-        holder.itemView.setOnClickListener {
-            onItemClick.invoke(category)
-        }
     }
 
-    inner class CategoryViewHolder(var binding: CategoryItemBinding) :
+    inner class CategoriesViewHolder(var binding: CategoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            //아이템 터치 리스너
+            itemView.setOnClickListener {
+                onItemClick.invoke(categoryList[adapterPosition])
+            }
+        }
     }
 }
