@@ -73,13 +73,15 @@ class MealBottomSheetFragment : BottomSheetDialogFragment() {
                     putExtra(HomeFragment.MEAL_THUMB, mealThumb)
 
                 }
+                //화면 이동 후 현재 표시된 화면 종료
                 startActivity(intent)
+                dismiss()
             }
         }
     }
 
     private fun setObserve() {
-        viewModel.bottomSheetMealLiveData.observe(requireActivity()) {
+        viewModel.bottomSheetMealLiveData.observe(this) {
             Glide.with(this).load(it.strMealThumb).into(binding.imgMeal)
             binding.txtCategory.text = it.strCategory
             binding.txtArea.text = it.strArea

@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.skymilk.foodinfokt.R
 import com.skymilk.foodinfokt.activities.CategoryMealsActivity
 import com.skymilk.foodinfokt.activities.MainActivity
 import com.skymilk.foodinfokt.activities.MealActivity
@@ -58,10 +60,6 @@ class HomeFragment : Fragment() {
 
         setObserve()
         setClick()
-
-
-        //랜덤 음식 가져오기
-        viewModel.getRandomMeal()
 
         //필터링 음식 가져오기
         viewModel.getFilterMeal("seafood") // seafood로 일단 고정
@@ -125,6 +123,10 @@ class HomeFragment : Fragment() {
             intent.putExtra(MEAL_NAME, viewModel.randomMealLiveData.value!!.strMeal)
             intent.putExtra(MEAL_THUMB, viewModel.randomMealLiveData.value!!.strMealThumb)
             startActivity(intent)
+        }
+
+        binding.imgSearch.setOnClickListener {
+            findNavController().navigate(R.id.searchFragment)
         }
     }
 

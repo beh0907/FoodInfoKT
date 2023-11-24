@@ -57,6 +57,7 @@ class CategoryMealsActivity : AppCompatActivity() {
 
         //리사이클러뷰 설정
         binding.recyclerMeals.apply {
+            setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
             adapter = categoryMealsAdapter
         }

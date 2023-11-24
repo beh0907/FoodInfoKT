@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.skymilk.foodinfokt.activities.MainActivity
-import com.skymilk.foodinfokt.adapters.FavoritesMealsAdapter
+import com.skymilk.foodinfokt.adapters.MealsAdapter
 import com.skymilk.foodinfokt.databinding.FragmentFavoritesBinding
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
 
@@ -21,7 +21,7 @@ class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var viewModel: HomeViewModel
 
-    private lateinit var favoritesMealsAdapter: FavoritesMealsAdapter
+    private lateinit var mealsAdapter: MealsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,15 +46,15 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun initFavoritesRecyclerView() {
-        favoritesMealsAdapter = FavoritesMealsAdapter()
+        mealsAdapter = MealsAdapter()
 
-        favoritesMealsAdapter.onItemClick = {
+        mealsAdapter.onItemClick = {
 
         }
 
         binding.recyclerFavorites.apply {
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            adapter = favoritesMealsAdapter
+            adapter = mealsAdapter
         }
 
         //아이템 터치 이벤트 동작
@@ -71,7 +71,7 @@ class FavoritesFragment : Fragment() {
             //즐겨찾기 목록 아이템을 스와이프시 삭제한다
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val meal = favoritesMealsAdapter.differ.currentList[position]
+                val meal = mealsAdapter.differ.currentList[position]
 
                 viewModel.deleteFavoriteMeal(meal)
 
@@ -94,7 +94,7 @@ class FavoritesFragment : Fragment() {
         //requireActivity()는 activity가 null일 때 IllegalStateException로 발생 시켜 좀 더 안전 하다
         viewModel.favoriteMealsLiveDatabase.observe(requireActivity()) {
             //새 리스트를 적용해 업데이트한다
-            favoritesMealsAdapter.differ.submitList(it)
+            mealsAdapter.differ.submitList(it)
         }
     }
 }

@@ -13,12 +13,12 @@ interface MealApi {
     fun getRandomMeal(): Call<MealList>
 
     //상세 정보 조회
-    @GET("lookup.php?")
+    @GET("lookup.php")
     fun getDetailMeal(@Query("i") id:String): Call<MealList>
 
     //인기 음식 목록 조회
     //API 유료 문제로 임시로 필터링 API 활용
-    @GET("filter.php?")
+    @GET("filter.php")
     fun getPopularItems(@Query("c") categoryName:String): Call<MealByCategoryList>
 
     //카테고리 목록 조회
@@ -26,7 +26,10 @@ interface MealApi {
     fun getCategories(): Call<CategoryList>
 
     //조건 조회
-    @GET("filter.php?")
+    @GET("filter.php")
     fun getMealsByCategory(@Query("c") categoryName:String): Call<MealByCategoryList>
 
+    //음식 이름 검색
+    @GET("search.php")
+    fun searchMealsByKeyword(@Query("s") keyword:String): Call<MealList>
 }

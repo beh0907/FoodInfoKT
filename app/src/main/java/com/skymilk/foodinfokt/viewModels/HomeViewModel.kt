@@ -26,8 +26,13 @@ class HomeViewModel(
     var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()
     var categoriesLiveData = MutableLiveData<List<Category>>()
     var bottomSheetMealLiveData = MutableLiveData<Meal>()
+    var searchMealsLiveData = MutableLiveData<List<Meal>>()
 
     var favoriteMealsLiveDatabase = mealDatabase.mealDao().getAllMeals()
+
+    init {
+        getRandomMeal()
+    }
 
     //무작위 음식 조회
     fun getRandomMeal() {
@@ -85,6 +90,7 @@ class HomeViewModel(
         })
     }
 
+    //음식 ID 정보로 상세 정보 조회
     fun getMealById(id: String) {
         RetrofitInstance.api.getDetailMeal(id).enqueue(object : Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
@@ -102,13 +108,28 @@ class HomeViewModel(
         })
     }
 
+    //키워드로 음식 검색
+    fun searchMealsByKeyword(keyword:String) {
+        RetrofitInstance.api.searchMealsByKeyword(keyword).enqueue(object :Callback<MealList> {
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                response.body()?.let {
+                    searchMealsLiveData.postValue(it.meals)
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                Log.d(TAG, t.message.toString())
+            }
+
+        })
+    }
+
     //즐겨찾기 추가
     fun insertFavoriteMeal(meal: Meal) {
         viewModelScope.launch { //코루틴 생성
             mealDatabase.mealDao().upsert(meal)
         }
     }
-
 
     //즐겨찾기 삭제
     fun deleteFavoriteMeal(meal: Meal) {

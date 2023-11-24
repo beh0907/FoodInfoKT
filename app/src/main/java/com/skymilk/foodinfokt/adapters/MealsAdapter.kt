@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skymilk.foodinfokt.databinding.MealItemBinding
 import com.skymilk.foodinfokt.models.Meal
-import com.skymilk.foodinfokt.models.MealsByCategory
 
-class FavoritesMealsAdapter() :
-    RecyclerView.Adapter<FavoritesMealsAdapter.FavoriteMealsViewHolder>() {
+class MealsAdapter() :
+    RecyclerView.Adapter<MealsAdapter.MealsViewHolder>() {
 
     //전체 재랜더링을 하는 notifyDataSetChanged의 성능 하락을 감안
     //diffUtil는 현재와 이전 상태를 비교해 최소한의 업데이트로 처리
@@ -28,8 +27,8 @@ class FavoritesMealsAdapter() :
 
     lateinit var onItemClick: ((Meal) -> Unit)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMealsViewHolder {
-        return FavoriteMealsViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealsViewHolder {
+        return MealsViewHolder(
             MealItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -42,7 +41,7 @@ class FavoritesMealsAdapter() :
         return differ.currentList.size
     }
 
-    override fun onBindViewHolder(holder: FavoriteMealsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MealsViewHolder, position: Int) {
         val meal = differ.currentList[position]
 
         //이미지 적용
@@ -52,7 +51,7 @@ class FavoritesMealsAdapter() :
         holder.binding.txtMealName.text = meal.strMeal
     }
 
-    inner class FavoriteMealsViewHolder(var binding: MealItemBinding) :
+    inner class MealsViewHolder(var binding: MealItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
             init {
