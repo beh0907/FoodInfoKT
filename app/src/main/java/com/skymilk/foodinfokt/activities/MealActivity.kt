@@ -12,16 +12,17 @@ import com.skymilk.foodinfokt.databinding.ActivityMealBinding
 import com.skymilk.foodinfokt.db.MealDatabase
 import com.skymilk.foodinfokt.fragments.HomeFragment
 import com.skymilk.foodinfokt.models.Meal
+import com.skymilk.foodinfokt.viewModels.HomeViewModel
 import com.skymilk.foodinfokt.viewModels.MealViewModel
-import com.skymilk.foodinfokt.viewModels.MealViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MealActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMealBinding
-    private val viewModel: MealViewModel by viewModels { // 팩토리 커스텀을 했을 경우 처리
-        val mealDatabase = MealDatabase.getInstance(this)
-        MealViewModelFactory(mealDatabase)
-    }
+
+    //프래그먼트 Home View Model
+    private val viewModel: MealViewModel by viewModels()
 
     private lateinit var meal: Meal // 현재 조회중인 음식 정보
 

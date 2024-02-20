@@ -10,15 +10,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.skymilk.foodinfokt.R
 import com.skymilk.foodinfokt.db.MealDatabase
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
-import com.skymilk.foodinfokt.viewModels.HomeViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     //프래그먼트 Home View Model
-    val homeViewModel: HomeViewModel by viewModels { // 팩토리 커스텀을 했을 경우 처리
-        val mealDatabase = MealDatabase.getInstance(this)
-        HomeViewModelFactory(mealDatabase)
-    }
+    val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

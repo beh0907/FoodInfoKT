@@ -21,7 +21,9 @@ import com.skymilk.foodinfokt.fragments.bottomSheet.MealBottomSheetFragment
 import com.skymilk.foodinfokt.models.Category
 import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel

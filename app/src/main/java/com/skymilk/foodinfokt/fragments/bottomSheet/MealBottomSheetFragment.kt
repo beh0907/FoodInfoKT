@@ -14,9 +14,11 @@ import com.skymilk.foodinfokt.databinding.FragmentMealBottomSheetBinding
 import com.skymilk.foodinfokt.fragments.HomeFragment
 import com.skymilk.foodinfokt.models.Meal
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val MEAL_ID = "MEAL_ID"
 
+@AndroidEntryPoint
 class MealBottomSheetFragment : BottomSheetDialogFragment() {
     lateinit var binding: FragmentMealBottomSheetBinding
     private lateinit var viewModel: HomeViewModel

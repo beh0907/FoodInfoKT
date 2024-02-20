@@ -5,19 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.skymilk.foodinfokt.models.MealByCategoryList
 import com.skymilk.foodinfokt.models.MealsByCategory
-import com.skymilk.foodinfokt.retrofit.RetrofitInstance
+import com.skymilk.foodinfokt.retrofit.MealApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
+import javax.inject.Inject
 
-class CategoryMealsViewModel() : ViewModel() {
+@HiltViewModel
+class CategoryMealsViewModel @Inject constructor(
+    private val mealApi: MealApi
+) : ViewModel() {
     val TAG = "CategoryMealsViewModel"
 
     var mealsByCategoryLiveData = MutableLiveData<List<MealsByCategory>>()
 
     fun getMealsByCategory(category: String) {
-        RetrofitInstance.api.getMealsByCategory(category).enqueue(object : Callback<MealByCategoryList> {
+        mealApi.getMealsByCategory(category).enqueue(object : Callback<MealByCategoryList> {
             override fun onResponse(
                 call: Call<MealByCategoryList>,
                 response: Response<MealByCategoryList>

@@ -13,7 +13,9 @@ import com.skymilk.foodinfokt.activities.MealActivity
 import com.skymilk.foodinfokt.adapters.MealsAdapter
 import com.skymilk.foodinfokt.databinding.FragmentSearchBinding
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding

@@ -11,7 +11,9 @@ import com.skymilk.foodinfokt.adapters.CategoriesAdapter
 import com.skymilk.foodinfokt.databinding.FragmentCategoriesBinding
 import com.skymilk.foodinfokt.models.Category
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoriesFragment : Fragment() {
 
     private lateinit var binding: FragmentCategoriesBinding

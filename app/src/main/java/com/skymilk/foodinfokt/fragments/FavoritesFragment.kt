@@ -13,8 +13,10 @@ import com.skymilk.foodinfokt.activities.MainActivity
 import com.skymilk.foodinfokt.adapters.MealsAdapter
 import com.skymilk.foodinfokt.databinding.FragmentFavoritesBinding
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
     private val TAG = "FavoritesFragment"
 
