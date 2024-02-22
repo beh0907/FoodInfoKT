@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skymilk.foodinfokt.db.MealDao
 import com.skymilk.foodinfokt.models.Meal
-import com.skymilk.foodinfokt.models.MealList
 import com.skymilk.foodinfokt.retrofit.MealApi
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -23,14 +22,14 @@ class MealViewModel @Inject constructor(
     var mealDetailLiveData = MutableLiveData<Meal>()
 
     fun getMealDetail(id: String) {
-        mealApi.getDetailMeal(id).enqueue(object : Callback<MealList> {
-            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+        mealApi.getDetailMeal(id).enqueue(object : Callback<List<Meal>> {
+            override fun onResponse(call: Call<List<Meal>>, response: Response<List<Meal>>) {
                 if (response.body() != null) {
-                    mealDetailLiveData.value = response.body()!!.meals[0]
+                    mealDetailLiveData.value = response.body()!!.first()
                 }
             }
 
-            override fun onFailure(call: Call<MealList>, t: Throwable) {
+            override fun onFailure(call: Call<List<Meal>>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
             }
 
