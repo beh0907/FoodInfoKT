@@ -1,9 +1,10 @@
 package com.skymilk.foodinfokt.db
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 
-@TypeConverters
+@ProvidedTypeConverter
 class MealTypeConvertor {
 
     @TypeConverter

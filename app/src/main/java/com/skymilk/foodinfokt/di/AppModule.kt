@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.skymilk.foodinfokt.db.MealDao
 import com.skymilk.foodinfokt.db.MealDatabase
 import com.skymilk.foodinfokt.db.MealTypeConvertor
+import com.skymilk.foodinfokt.repository.MealRepository
+import com.skymilk.foodinfokt.repository.MealRepositoryImpl
 import com.skymilk.foodinfokt.retrofit.MealApi
 import dagger.Module
 import dagger.Provides
@@ -51,8 +53,20 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsDao(
+    fun provideMealDao(
         mealDatabase: MealDatabase
     ): MealDao = mealDatabase.mealDao
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    //Repository 의존성 주입
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Provides
+    @Singleton
+    fun provideMealRepository(
+        mealApi: MealApi,
+        mealDao: MealDao
+    ) : MealRepository = MealRepositoryImpl(mealApi, mealDao)
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
 }

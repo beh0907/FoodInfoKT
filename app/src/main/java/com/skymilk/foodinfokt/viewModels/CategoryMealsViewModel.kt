@@ -3,6 +3,7 @@ package com.skymilk.foodinfokt.viewModels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.skymilk.foodinfokt.models.MealByCategoryList
 import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.retrofit.MealApi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,17 +21,17 @@ class CategoryMealsViewModel @Inject constructor(
     var mealsByCategoryLiveData = MutableLiveData<List<MealsByCategory>>()
 
     fun getMealsByCategory(category: String) {
-        mealApi.getMealsByCategory(category).enqueue(object : Callback<List<MealsByCategory>> {
+        mealApi.getMealsByCategory(category).enqueue(object : Callback<MealByCategoryList> {
             override fun onResponse(
-                call: Call<List<MealsByCategory>>,
-                response: Response<List<MealsByCategory>>
+                call: Call<MealByCategoryList>,
+                response: Response<MealByCategoryList>
             ) {
                 response.body()?.let {
-                    mealsByCategoryLiveData.postValue(it)
+                    mealsByCategoryLiveData.postValue(it.meals)
                 }
             }
 
-            override fun onFailure(call: Call<List<MealsByCategory>>, t: Throwable) {
+            override fun onFailure(call: Call<MealByCategoryList>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
             }
 

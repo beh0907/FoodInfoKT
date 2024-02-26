@@ -9,10 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.skymilk.foodinfokt.databinding.ActivityMealBinding
-import com.skymilk.foodinfokt.db.MealDatabase
 import com.skymilk.foodinfokt.fragments.HomeFragment
 import com.skymilk.foodinfokt.models.Meal
-import com.skymilk.foodinfokt.viewModels.HomeViewModel
 import com.skymilk.foodinfokt.viewModels.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -71,7 +69,7 @@ class MealActivity : AppCompatActivity() {
         binding.btnFavorite.setOnClickListener {
             //mealDetailLiveData null 체크를 위해 let
             viewModel.mealDetailLiveData.value?.let { meal ->
-                viewModel.insertMeal(meal)
+                viewModel.insertFavoriteMeal(meal)
                 Toast.makeText(this, "음식 정보를 저장하였습니다.", Toast.LENGTH_SHORT).show()
             }
 
@@ -85,7 +83,7 @@ class MealActivity : AppCompatActivity() {
             responseState()
 
             binding.txtCategory.text = "Category : ${it!!.strCategory}"
-            binding.txtArea.text = "Area : ${it!!.strArea}"
+            binding.txtArea.text = "Area : ${it.strArea}"
             binding.txtInstructionsStep.text = it.strInstructions
         }
     }
