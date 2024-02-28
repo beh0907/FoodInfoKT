@@ -10,7 +10,6 @@ import com.skymilk.foodinfokt.databinding.ActivityCategoryMealsBinding
 import com.skymilk.foodinfokt.fragments.HomeFragment
 import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.viewModels.CategoryMealsViewModel
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

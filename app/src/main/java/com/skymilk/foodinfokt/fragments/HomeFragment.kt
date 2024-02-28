@@ -62,12 +62,6 @@ class HomeFragment : Fragment() {
 
         setObserve()
         setClick()
-
-        //필터링 음식 가져오기
-        viewModel.getFilterMeal("seafood") // seafood로 일단 고정
-
-        //카테고리 목록 가져오기
-        viewModel.getCategories()
     }
 
     //popular 목록 초기화

@@ -1,5 +1,6 @@
 package com.skymilk.foodinfokt.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.skymilk.foodinfokt.activities.MainActivity
+import com.skymilk.foodinfokt.activities.MealActivity
 import com.skymilk.foodinfokt.adapters.MealsAdapter
 import com.skymilk.foodinfokt.databinding.FragmentFavoritesBinding
 import com.skymilk.foodinfokt.viewModels.HomeViewModel
@@ -51,7 +53,11 @@ class FavoritesFragment : Fragment() {
         mealsAdapter = MealsAdapter()
 
         mealsAdapter.onItemClick = {
-
+            val intent = Intent(activity, MealActivity::class.java)
+            intent.putExtra(HomeFragment.MEAL_ID, it.idMeal)
+            intent.putExtra(HomeFragment.MEAL_NAME, it.strMeal)
+            intent.putExtra(HomeFragment.MEAL_THUMB, it.strMealThumb)
+            startActivity(intent)
         }
 
         binding.recyclerFavorites.apply {
