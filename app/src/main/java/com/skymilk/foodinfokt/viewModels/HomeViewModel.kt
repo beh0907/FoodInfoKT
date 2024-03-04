@@ -1,23 +1,18 @@
 package com.skymilk.foodinfokt.viewModels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.skymilk.foodinfokt.db.MealDao
 import com.skymilk.foodinfokt.models.Category
 import com.skymilk.foodinfokt.models.Meal
 import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.repository.MealRepository
-import com.skymilk.foodinfokt.retrofit.MealApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-//    private val mealDao: MealDao,
-//    private val mealApi: MealApi,
     private val mealRepository: MealRepository
 ) : ViewModel() {
     val TAG = "HomeViewModel"
@@ -31,20 +26,18 @@ class HomeViewModel @Inject constructor(
     var favoriteMealsLiveDatabase = mealRepository.getAllFavoriteMeals()
 
     init {
-        viewModelScope.launch {
-            //랜덤 음식 가져오기
-            getRandomMeal()
+        //랜덤 음식 가져오기
+        getRandomMeal()
 
-            //필터링 음식 가져오기
-            getFilterMeal("seafood") // seafood로 일단 고정
+        //필터링 음식 가져오기
+        getFilterMeal("seafood") // seafood로 일단 고정
 
-            //카테고리 목록 가져오기
-            getCategories()
-        }
+        //카테고리 목록 가져오기
+        getCategories()
     }
 
     //무작위 음식 조회
-    suspend fun getRandomMeal() {
+    fun getRandomMeal() {
         viewModelScope.launch {
             randomMealLiveData.postValue(mealRepository.getRandomMeal())
         }
@@ -52,14 +45,14 @@ class HomeViewModel @Inject constructor(
 
 
     //음식 조건 검색
-    suspend fun getFilterMeal(category: String) {
+    fun getFilterMeal(category: String) {
         viewModelScope.launch {
             popularItemsLiveData.postValue(mealRepository.getPopularItems(category))
         }
     }
 
     //카테고리 목록 가져오기
-    suspend fun getCategories() {
+    fun getCategories() {
         viewModelScope.launch {
             categoriesLiveData.postValue(mealRepository.getCategories())
         }

@@ -1,11 +1,13 @@
 package com.skymilk.foodinfokt.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.skymilk.foodinfokt.activities.CategoryMealsActivity
 import com.skymilk.foodinfokt.activities.MainActivity
 import com.skymilk.foodinfokt.adapters.CategoriesAdapter
 import com.skymilk.foodinfokt.databinding.FragmentCategoriesBinding
@@ -48,7 +50,9 @@ class CategoriesFragment : Fragment() {
         categoriesAdapter = CategoriesAdapter()
 
         categoriesAdapter.onItemClick = {
-
+            val intent = Intent(activity, CategoryMealsActivity::class.java)
+            intent.putExtra(HomeFragment.CATEGORY_NAME, it.strCategory)
+            startActivity(intent)
         }
 
         binding.recyclerCategories.apply {

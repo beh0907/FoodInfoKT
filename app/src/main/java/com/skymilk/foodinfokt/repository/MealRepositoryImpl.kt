@@ -40,11 +40,15 @@ class MealRepositoryImpl(
         return mealDao.getAllFavoriteMeals()
     }
 
-    override suspend fun insertFavoriteMeal(meal: Meal) {
-        mealDao.upsert(meal)
+    override suspend fun getIsFavoriteMeal(idMeal : String): Boolean {
+        return mealDao.getIsFavoriteMeal(idMeal)
     }
 
-    override suspend fun deleteFavoriteMeal(meal: Meal) {
-        mealDao.delete(meal)
+    override suspend fun insertFavoriteMeal(meal: Meal): Long {
+        return mealDao.upsert(meal)
+    }
+
+    override suspend fun deleteFavoriteMeal(meal: Meal): Int {
+        return mealDao.delete(meal)
     }
 }

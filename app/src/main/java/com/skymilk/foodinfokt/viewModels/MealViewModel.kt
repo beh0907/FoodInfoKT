@@ -16,6 +16,7 @@ class MealViewModel @Inject constructor(
     val TAG = "CategoryMealsViewModel"
 
     var mealDetailLiveData = MutableLiveData<Meal>()
+    var isFavoriteLiveData = MutableLiveData<Boolean>()
 
     fun getMealDetail(id: String) {
         viewModelScope.launch {
@@ -23,15 +24,28 @@ class MealViewModel @Inject constructor(
         }
     }
 
+    fun getIsFavoriteMeal(id: String) {
+        viewModelScope.launch {
+            isFavoriteLiveData.value = mealRepository.getIsFavoriteMeal(id)
+        }
+    }
+
+
     fun insertFavoriteMeal(meal: Meal) {
         viewModelScope.launch {
-            mealRepository.insertFavoriteMeal(meal)
+            val result: Long = mealRepository.insertFavoriteMeal(meal)
+
+            //DB 삽입에 성공했다면 체크
+            if (result > 0) isFavoriteLiveData.value = true
         }
     }
 
     fun deleteFavoriteMeal(meal: Meal) {
         viewModelScope.launch {
-            mealRepository.deleteFavoriteMeal(meal)
+            val result: Int = mealRepository.deleteFavoriteMeal(meal)
+
+            //DB 삭제에 성공했다면 체크
+            if (result > 0) isFavoriteLiveData.value = false
         }
     }
 }

@@ -8,21 +8,17 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.skymilk.foodinfokt.R
 import com.skymilk.foodinfokt.databinding.ActivityMealBinding
 import com.skymilk.foodinfokt.fragments.HomeFragment
-import com.skymilk.foodinfokt.models.Meal
 import com.skymilk.foodinfokt.viewModels.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MealActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMealBinding
 
-    //프래그먼트 Home View Model
     private val viewModel: MealViewModel by viewModels()
-
-    private lateinit var meal: Meal // 현재 조회중인 음식 정보
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +47,9 @@ class MealActivity : AppCompatActivity() {
 
         //랜덤 음식 가져오기
         viewModel.getMealDetail(mealId)
+
+        //즐겨찾기 여부 확인
+        viewModel.getIsFavoriteMeal(mealId)
     }
 
 
@@ -67,10 +66,23 @@ class MealActivity : AppCompatActivity() {
 
         //즐겨찾기 버튼 클릭
         binding.btnFavorite.setOnClickListener {
-            //mealDetailLiveData null 체크를 위해 let
+            //mealDetailLiveData null 체크
             viewModel.mealDetailLiveData.value?.let { meal ->
-                viewModel.insertFavoriteMeal(meal)
-                Toast.makeText(this, "음식 정보를 저장하였습니다.", Toast.LENGTH_SHORT).show()
+
+                //즐겨찾기 여부 상태 확인
+                viewModel.isFavoriteLiveData.value?.let {
+
+                    //저장된 음식이라면 삭제
+                    //즐겨찾기 정보가 없다면 추가한다
+                    if (it) {
+                        viewModel.deleteFavoriteMeal(meal)
+                        Toast.makeText(this, "음식 정보를 삭제하였습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.insertFavoriteMeal(meal)
+                        Toast.makeText(this, "음식 정보를 저장하였습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
             }
 
         }
@@ -85,6 +97,11 @@ class MealActivity : AppCompatActivity() {
             binding.txtCategory.text = "Category : ${it!!.strCategory}"
             binding.txtArea.text = "Area : ${it.strArea}"
             binding.txtInstructionsStep.text = it.strInstructions
+        }
+
+        viewModel.isFavoriteLiveData.observe(this) {
+            if (it) binding.btnFavorite.setImageResource(R.drawable.ic_favorite_check)  // 즐겨찾기 정보가 있다면
+            else binding.btnFavorite.setImageResource(R.drawable.ic_favorite) // 즐겨찾기 정보가 없다면
         }
     }
 

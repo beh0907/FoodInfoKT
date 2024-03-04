@@ -2,7 +2,6 @@ package com.skymilk.foodinfokt.repository
 
 import androidx.lifecycle.LiveData
 import com.skymilk.foodinfokt.models.Category
-import com.skymilk.foodinfokt.models.CategoryList
 import com.skymilk.foodinfokt.models.Meal
 import com.skymilk.foodinfokt.models.MealsByCategory
 
@@ -22,7 +21,8 @@ interface MealRepository {
     //Room DB
     //////////////////////////////////////////////////////////////////////////////
     fun getAllFavoriteMeals(): LiveData<List<Meal>>
-    suspend fun insertFavoriteMeal(meal: Meal)
-    suspend fun deleteFavoriteMeal(meal: Meal)
+    suspend fun getIsFavoriteMeal(idMeal: String): Boolean
+    suspend fun insertFavoriteMeal(meal: Meal): Long
+    suspend fun deleteFavoriteMeal(meal: Meal): Int
     //////////////////////////////////////////////////////////////////////////////
 }
