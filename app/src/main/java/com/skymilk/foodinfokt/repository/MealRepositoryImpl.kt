@@ -3,7 +3,6 @@ package com.skymilk.foodinfokt.repository
 import androidx.lifecycle.LiveData
 import com.skymilk.foodinfokt.db.MealDao
 import com.skymilk.foodinfokt.models.Category
-import com.skymilk.foodinfokt.models.CategoryList
 import com.skymilk.foodinfokt.models.Meal
 import com.skymilk.foodinfokt.models.MealsByCategory
 import com.skymilk.foodinfokt.retrofit.MealApi
@@ -13,34 +12,64 @@ class MealRepositoryImpl(
     private val mealDao: MealDao
 ) : MealRepository {
     override suspend fun getRandomMeal(): Meal {
-        return mealApi.getRandomMeal().body()!!.meals.first()
+        return try {
+            mealApi.getRandomMeal().body()!!.meals.first()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Meal()
+        }
     }
 
     override suspend fun getDetailMeal(id: String): Meal {
-        return mealApi.getDetailMeal(id).body()!!.meals.first()
+        return try {
+            mealApi.getDetailMeal(id).body()!!.meals.first()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Meal()
+        }
     }
 
     override suspend fun getPopularItems(category: String): List<MealsByCategory> {
-        return mealApi.getPopularItems(category).body()!!.meals
+        return try {
+            mealApi.getPopularItems(category).body()!!.meals
+        } catch (e: Exception) {
+            e.printStackTrace()
+            arrayListOf()
+        }
     }
 
     override suspend fun getCategories(): List<Category> {
-        return mealApi.getCategories().body()!!.categories
+        return try {
+            mealApi.getCategories().body()!!.categories
+        } catch (e: Exception) {
+            e.printStackTrace()
+            arrayListOf()
+        }
     }
 
     override suspend fun getMealsByCategory(category: String): List<MealsByCategory> {
-        return mealApi.getMealsByCategory(category).body()!!.meals
+        return try {
+            mealApi.getMealsByCategory(category).body()!!.meals
+        } catch (e: Exception) {
+            e.printStackTrace()
+            arrayListOf()
+        }
     }
 
     override suspend fun searchMealsByKeyword(keyword: String): List<Meal> {
-        return mealApi.searchMealsByKeyword(keyword).body()!!.meals
+        return try {
+            mealApi.searchMealsByKeyword(keyword).body()!!.meals
+        } catch (e: Exception) {
+            e.printStackTrace()
+            arrayListOf()
+        }
     }
 
     override fun getAllFavoriteMeals(): LiveData<List<Meal>> {
         return mealDao.getAllFavoriteMeals()
     }
 
-    override suspend fun getIsFavoriteMeal(idMeal : String): Boolean {
+    override suspend fun getIsFavoriteMeal(idMeal: String): Boolean {
         return mealDao.getIsFavoriteMeal(idMeal)
     }
 
