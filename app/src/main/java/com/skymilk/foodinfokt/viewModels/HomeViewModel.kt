@@ -15,7 +15,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val mealRepository: MealRepository
 ) : ViewModel() {
-    val TAG = "HomeViewModel"
 
     var randomMealLiveData = MutableLiveData<Meal>()
     var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()

@@ -9,8 +9,7 @@ import com.bumptech.glide.Glide
 import com.skymilk.foodinfokt.databinding.MealItemBinding
 import com.skymilk.foodinfokt.models.Meal
 
-class MealsAdapter() :
-    RecyclerView.Adapter<MealsAdapter.MealsViewHolder>() {
+class MealsAdapter : RecyclerView.Adapter<MealsAdapter.MealsViewHolder>() {
 
     //전체 재랜더링을 하는 notifyDataSetChanged의 성능 하락을 감안
     //diffUtil는 현재와 이전 상태를 비교해 최소한의 업데이트로 처리
@@ -54,11 +53,11 @@ class MealsAdapter() :
     inner class MealsViewHolder(var binding: MealItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            init {
-                //아이템 터치 리스너
-                itemView.setOnClickListener {
-                    onItemClick.invoke(differ.currentList[adapterPosition])
-                }
+        init {
+            //아이템 터치 리스너
+            itemView.setOnClickListener {
+                onItemClick.invoke(differ.currentList[adapterPosition])
             }
+        }
     }
 }
