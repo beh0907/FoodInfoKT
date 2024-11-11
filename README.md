@@ -12,7 +12,7 @@
 # 기술스택 및 라이브러리
 
 * 최소 SDK 24 / 타겟 SDK 34
-* kotlin 언어 기반, 비동기 처리를 위한 coroutine + Flow
+* kotlin 언어 기반, 비동기 처리를 위한 coroutine + LiveData
 * 종속성 주입을 위한 [Dagger Hilt](https://dagger.dev/hilt/)
 * JetPack
   * LifeCycle - Android의 수명 주기를 관찰하고 수명 주기 변경에 따라 UI 상태를 처리합니다.
